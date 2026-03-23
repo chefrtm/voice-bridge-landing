@@ -85,9 +85,12 @@ export default function Home() {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
-    // TODO: Connect to email service (Buttondown, Mailchimp, etc.)
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitted(true);
+    const res = await fetch("/api/waitlist", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    if (res.ok) setSubmitted(true);
     setLoading(false);
   };
 
